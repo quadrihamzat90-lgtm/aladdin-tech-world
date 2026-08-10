@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product - Aladdin Tech World</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background: #f5f7fb;
+      color: #111827;
+    }
+
+    header {
+      background: #071a3d;
+      color: white;
+      padding: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 10px;
+      font-size: 14px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+
+    .product {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,.1);
+      text-align: center;
+    }
+
+    .image {
+      font-size: 100px;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      margin-bottom: 10px;
+    }
+
+    .description {
+      color: #555;
+      line-height: 1.6;
+    }
+
+    .price {
+      color: #0755c9;
+      font-size: 28px;
+      font-weight: bold;
+      margin: 20px 0;
+    }
+
+    button {
+      background: #0755c9;
+      color: white;
+      border: none;
+      padding: 14px 25px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #043e96;
+    }
+
+    .back {
+      display: inline-block;
+      margin-top: 20px;
+      color: #0755c9;
+      text-decoration: none;
+    }
+
+    #message {
+      text-align: center;
+      padding: 40px;
+    }
+
+    footer {
+      background: #071a3d;
+      color: white;
+      text-align: center;
+      padding: 25px;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">🛒 Aladdin Tech World</div>
+
+  <nav>
+    <a href="/">Home</a>
+    <a href="/products.html">Products</a>
+    <a href="/cart.html">Cart</a>
+    <a href="/login.html">Login</a>
+  </nav>
+</header>
+
+<div class="container">
+
+  <div id="message">
+    Loading product...
+  </div>
+
+  <div id="product" class="product" style="display:none;">
+
+    <div class="image">📦</div>
+
+    <h1 id="name"></h1>
+
+    <p id="description" class="description"></p>
+
+    <div id="price" class="price"></div>
+
+    <button onclick="addToCart()">
+      🛒 Add to Cart
+    </button>
+
+    <br>
+
+    <a class="back" href="/products.html">
+      ← Back to Products
+    </a>
+
+  </div>
+
+</div>
+
+<footer>
+  <p>© 2026 Aladdin Tech World</p>
+</footer>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const productId = params.get("id");
+
+let currentProduct = null;
+
+async function loadProduct() {
+
+  if (!productId) {
+    document.getElementById("message").textContent =
+      "No product selected.";
+    return;
+  }
+
+  try {
+
+    const response = await fetch("/api/products/" + productId);
+
+    if (!response.ok) {
+      throw new Error("Product not found");
+    }
+
+    const product = await response.json();
+
+    currentProduct = product;
+
+    document.getElementById("name").textContent =
+      product.name;
+
+    document.getElementById("description").textContent =
+      product.description || "Quality technology product.";
+
+    document.getElementById("price").textContent =
+      "₦" + Number(product.price).toLocaleString();
+
+    document.getElementById("message").style.display = "none";
+    document.getElementById("product").style.display = "block";
+
+  } catch (error) {
+
+    document.getElementById("message").textContent =
+      "Unable to load this product.";
+
+    console.error(error);
+  }
+}
+
+function addToCart() {
+
+  if (!currentProduct) return;
+
+  let cart = JSON.parse(
+    localStorage.getItem("cart") || "[]"
+  );
+
+  if (!cart.includes(currentProduct.id)) {
+    cart.push(currentProduct.id);
+    localStorage.setItem("cart", JSON.stringify(cart));
+    alert("Product added to cart 🛒");
+  } else {
+    alert("This product is already in your cart.");
+  }
+}
+
+loadProduct();
+</script>
+
+</body>
+</html>
