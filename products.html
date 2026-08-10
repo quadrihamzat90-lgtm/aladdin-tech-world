@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Products - Aladdin Tech World</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background: #f5f7fb;
+      color: #111827;
+    }
+
+    header {
+      background: #071a3d;
+      color: white;
+      padding: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-weight: bold;
+      font-size: 20px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 10px;
+      font-size: 14px;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: auto;
+      padding: 30px 20px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    #products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .product {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 3px 12px rgba(0,0,0,.08);
+      text-align: center;
+    }
+
+    .product .image {
+      font-size: 60px;
+      margin-bottom: 15px;
+    }
+
+    .product h3 {
+      margin: 10px 0;
+    }
+
+    .price {
+      color: #0755c9;
+      font-size: 20px;
+      font-weight: bold;
+      margin: 12px 0;
+    }
+
+    button {
+      border: none;
+      background: #0755c9;
+      color: white;
+      padding: 12px 18px;
+      border-radius: 7px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background: #043e96;
+    }
+
+    #message {
+      text-align: center;
+      margin: 20px;
+      font-weight: bold;
+    }
+
+    footer {
+      margin-top: 40px;
+      background: #071a3d;
+      color: white;
+      text-align: center;
+      padding: 25px;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">🛒 Aladdin Tech World</div>
+
+  <nav>
+    <a href="/">Home</a>
+    <a href="/products.html">Products</a>
+    <a href="/cart.html">Cart</a>
+    <a href="/login.html">Login</a>
+  </nav>
+</header>
+
+<div class="container">
+  <h1>Our Products</h1>
+
+  <div id="message">Loading products...</div>
+
+  <div id="products"></div>
+</div>
+
+<footer>
+  <
