@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cart - Aladdin Tech World</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f7fb;
+      color: #111;
+    }
+
+    header {
+      background: #050b18;
+      color: white;
+      padding: 18px;
+      text-align: center;
+    }
+
+    header h1 {
+      color: #2196f3;
+    }
+
+    nav {
+      margin-top: 12px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 8px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 20px;
+    }
+
+    .cart-item {
+      background: white;
+      padding: 18px;
+      margin-bottom: 12px;
+      border-radius: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 8px #ddd;
+    }
+
+    .remove {
+      background: #e53935;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .total {
+      background: white;
+      padding: 20px;
+      margin-top: 20px;
+      border-radius: 10px;
+      text-align: right;
+      box-shadow: 0 2px 8px #ddd;
+    }
+
+    .checkout {
+      display: inline-block;
+      background: #2196f3;
+      color: white;
+      text-decoration: none;
+      padding: 12px 20px;
+      border-radius: 7px;
+      margin-top: 12px;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 40px;
+      background: white;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>ALADDIN TECH WORLD</h1>
+
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="products.html">Products</a>
+    <a href="cart.html">Cart</a>
+  </nav>
+</header>
+
+<div class="container">
+
+  <h2>🛒 Your Shopping Cart</h2>
+
+  <br>
+
+  <div id="cart"></div>
+
+  <div class="total">
+    <h2>Total: ₦<span id="total">0</span></h2>
+
+    <a href="checkout.html" class="checkout">
+      Proceed to Checkout
+    </a>
+  </div>
+
+</div>
+
+<script>
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  function displayCart() {
+
+    const cartDiv = document.getElementById("cart");
+    const totalDiv = document.getElementById("total");
+
+    if (cart.length === 0) {
+
+      cartDiv.innerHTML = `
+        <div class="empty">
+          <h2>Your cart is empty 🛒</h2>
+          <br>
+          <a href="products.html">Continue Shopping</a>
+        </div>
+      `;
+
+      totalDiv.textContent = "0";
+      return;
+    }
+
+    let total = 0;
+
+    cartDiv.innerHTML = cart.map((item, index) => {
+
+      const price = Number(item.price) || 0;
+      total += price;
+
+      return `
+        <div class="cart-item">
+
+          <div>
+            <h3>${item.name || "Product"}</h3>
+            <p>₦${price.toLocaleString()}</p>
+          </div>
+
+          <button
+            class="remove"
+            onclick="removeItem(${index})">
+            Remove
+          </button>
+
+        </div>
+      `;
+
+    }).join("");
+
+    totalDiv.textContent = total.toLocaleString();
+  }
+
+  function removeItem(index) {
+
+    cart.splice(index, 1);
+
+    localStorage.setItem(
+      "cart",
+      JSON.stringify(cart)
+    );
+
+    displayCart();
+  }
+
+  displayCart();
+</script>
+
+</body>
+</html>
